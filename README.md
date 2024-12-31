@@ -45,4 +45,4 @@ Note that the HTML and CSS starting files were sourced from Angela Yu's Complete
 
 ## Live Demo:
 
-Play the Simon Says Game here!
+[Play the Simon Says Game here!](https://skudz96.github.io/SimonGame/)
