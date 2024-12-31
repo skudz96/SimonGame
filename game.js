@@ -1,82 +1,30 @@
-var buttonColors = ["red", "blue", "green", "yellow"];
-var gamePattern = [];
-var userClickedPattern = [];
-var started = false;
-var gameRestarted = false;
-var level = 0;
+// Define game rules:
+// 1. Logic to allow computer to select a random color
+// 2. Store computer's selection in an array
+// 3. Do the same to store the user's clicked selection
+// 4. Compare computer array to user's array. If correct, next level. The user has to click from the beginning
+// Start game when A is pressed
+// Play sounds whenever a button is clicked using the sound files provided
+// Animate a button being pressed
 
-function playSound(name) {
-  var playASound = new Audio("sounds/" + name + ".mp3");
-  playASound.play();
+// Array of color choices
+let colorChoice = ["green", "red", "yellow", "blue"];
+// 1. storing computer's selection randomly using computerChoice() function
+let computerPattern = [];
+
+function computerChoice() {
+  let randomNumber = Math.floor(Math.random() * colorChoice.length);
+  let computerSelectedColor = colorChoice[randomNumber];
+  computerPattern.push(computerSelectedColor);
+  console.log(computerPattern);
+  // The above aims to populate game array with computer's choices
+
+  buttonPressed(computerSelectedColor);
 }
 
-function animatePress(currentColor) {
-  $("#" + currentColor).addClass("pressed");
-  setTimeout(() => {
-    $("#" + currentColor).removeClass("pressed");
-  }, 100);
+function buttonPressed(color) {
+  let selectedButton = document.getElementById(color);
+  selectedButton.classList.add("pressed");
 }
 
-function nextSequence() {
-  userClickedPattern = [];
-  level++;
-  $("#level-title").text("Level " + level);
-  var randomNumber = Math.floor(Math.random() * 4);
-  var randomChosenColor = buttonColors[randomNumber];
-  gamePattern.push(randomChosenColor);
-
-  $("#" + randomChosenColor)
-    .fadeOut(200)
-    .fadeIn(200);
-
-  playSound(randomChosenColor);
-}
-
-$(".btn").on("click", function () {
-  var chosenColorID = $(this).attr("id");
-  userClickedPattern.push(chosenColorID);
-
-  playSound(chosenColorID);
-  animatePress(chosenColorID);
-
-  checkAnswer(userClickedPattern.length - 1);
-});
-
-// start the game when key has been pressed
-$(document).on("keydown", function (event) {
-  if (event.key === "a" && !started) {
-    nextSequence();
-    started = true;
-    $("#level-title").text("Level " + level);
-  }
-});
-
-// function that sets rules of the game
-function checkAnswer(currentLevel) {
-  if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
-    if (userClickedPattern.length === gamePattern.length) {
-      setTimeout(() => {
-        nextSequence();
-      }, 1000);
-    }
-  } else {
-    var wrongSound = new Audio("sounds/wrong.mp3");
-    wrongSound.play();
-    $("body").addClass("game-over");
-    setTimeout(() => {
-      $("body").removeClass("game-over");
-    }, 200);
-    $("#level-title").text("Game Over, Press Any Key to Restart");
-
-    $(document).on("keydown", function () {
-      if (!gameRestarted) {
-        $("#level-title").text("Level " + level);
-        gamePattern = [];
-        userClickedPattern = [];
-        level = 0;
-        nextSequence();
-        gameRestarted = false;
-      }
-    });
-  }
-}
+computerChoice();
