@@ -81,7 +81,7 @@ function checkAnswer(currentLevel) {
 
     // Changes HTML of level-title
     document.getElementById("level-title").innerHTML =
-      "Game Over! Press A to Try again";
+      "Game Over! Start Game to retry";
 
     resetGame();
   }
@@ -93,6 +93,8 @@ function resetGame() {
   userSelection = [];
   computerPattern = [];
   gameActive = false;
+
+  document.getElementById("start-button").style.display = "inline-block";
 }
 
 function buttonPressed(color) {
@@ -113,25 +115,24 @@ function buttonSound(color) {
   audio.play();
 }
 
-document.addEventListener("keydown", (event) => {
+document.getElementById("start-button").addEventListener("click", (event) => {
   // Wrapped everything here in an if, so the user cannot start a game when there is already one in progress
   if (!gameActive) {
-    // Event listener to start the game when user presses A
-    if (event.code === "KeyA") {
-      // Logging game start
-      console.log("Game started!");
-      // Resetting user selection
-      userSelection = [];
-      // Setting boolean to true when game has started
-      gameActive = true;
-      // Running next sequence
-      nextSequence();
+    // Logging game start
+    console.log("Game started!");
+    // Resetting user selection
+    userSelection = [];
+    // Setting boolean to true when game has started
+    gameActive = true;
+    // Running next sequence
+    nextSequence();
 
-      // Also dynamically adding HTML text to display current level
-      document.getElementById("current-level").innerHTML =
-        "Current level " + currentLevel;
+    // Also dynamically adding HTML text to display current level
+    document.getElementById("current-level").innerHTML =
+      "Current level " + currentLevel;
 
-      document.getElementById("level-title").innerHTML = "";
-    }
+    document.getElementById("level-title").innerHTML = "";
+
+    document.getElementById("start-button").style.display = "none";
   }
 });

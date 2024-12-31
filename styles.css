@@ -57,3 +57,19 @@ body {
   box-shadow: 0 0 20px white;
   background-color: grey;
 }
+
+#start-button {
+  font-size: 20px;
+  font-family: "Press Start 2P", cursive;
+  padding: 10px 20px;
+  margin: 20px;
+  background-color: #011f3f;
+  color: #fef2bf;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#start-button:hover {
+  background-color: #45a049;
+}
