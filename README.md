@@ -2,6 +2,10 @@
 
 A fun and interactive browser-based Simon Says game where players match the computer's randomly generated color sequence. As you progress, the sequence becomes longer and more challenging!
 
+## Live Demo:
+
+[Play the Simon Says Game here!](https://skudz96.github.io/SimonGame/)
+
 ## Features:
 
 - Randomly generated sequence of colors
@@ -16,11 +20,11 @@ A fun and interactive browser-based Simon Says game where players match the comp
 - CSS: Styling and animations for buttons.
 - JavaScript: Core game logic, event handling, and interactivity
 
-Note that the HTML and CSS starting files were sourced from Angela Yu's Complete 2024 Web Development Bootcamp JavaScript workshop: https://www.udemy.com/course/the-complete-web-development-bootcamp/?couponCode=LEARNNOWPLANSGB
+Note: The HTML and CSS starting files were sourced from [Angela Yu's Complete 2024 Web Development Bootcamp](https://www.udemy.com/course/the-complete-web-development-bootcamp/?couponCode=LEARNNOWPLANSGB) JavaScript Workshops. These files were modified and extended to create this interactive Simon Says game. The JavaScript was all written from scratch after revisiting my code from the start of the year, writing notes as pseudocode, and trying to recreate it using docs.
 
 ## How to Play:
 
-- Press the "A" key to start the game.
+- Click the "Start Game" button to begin.
 - Watch the computer's sequence of colors.
 - Click the buttons in the same sequence.
 - Progress to the next level if you complete the sequence correctly.
@@ -43,6 +47,6 @@ Note that the HTML and CSS starting files were sourced from Angela Yu's Complete
 
 3. Open index.html in your browser to play.
 
-## Live Demo:
+## Contributing
 
-[Play the Simon Says Game here!](https://skudz96.github.io/SimonGame/)
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with improvements or bug fixes.
