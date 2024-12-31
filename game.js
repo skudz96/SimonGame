@@ -15,6 +15,8 @@ let colorChoice = ["green", "red", "yellow", "blue"];
 let computerPattern = [];
 // 3. storing user's selection
 let userSelection = [];
+// storing current level
+let currentLevel = 1;
 
 function nextSequence() {
   // Following lines aim to populate game array with computer's choices
@@ -29,15 +31,69 @@ function nextSequence() {
   buttonSound(computerSelectedColor);
 }
 
+// Global event listener to all buttons. Only listenes when game is active
+// Pushes the clicked button's ID (corresponding to color string) to userSelection array
+// Also calls buttonPressed and buttonSound functions, with event click as argument to handle sounds and animations like in nextSequence function
 document.querySelectorAll(".btn").forEach((button) => {
   button.addEventListener("click", (e) => {
     if (gameActive) {
       let clickedColor = e.target.id;
       userSelection.push(clickedColor);
-      console.log("chose " + userSelection);
+      buttonPressed(clickedColor);
+      buttonSound(clickedColor);
+      // Essentially making currentLevel the index of the most recent input to the userSelection array
+      checkAnswer(userSelection.length - 1);
     }
   });
 });
+
+// 4. Comparing computer's array to user array
+// Used chatGPT to help me with this one, which gave a very clever suggestion.
+// Have an index of the most recent user input. Checks the value at this index in the userSelection array against the value at the same index in the computerPattern array. If these match, continue to next if statement. Otherwise, log that they are different and handle what happens
+function checkAnswer(currentLevel) {
+  if (userSelection[currentLevel] === computerPattern[currentLevel]) {
+    // Then we need to check that the user has completed the whole sequence for the current round
+    if (userSelection.length === computerPattern.length) {
+      // Logging only happens if the most recent input is correct, and the whole sequence matches
+      console.log("Sequence completed! Get ready for the next level..");
+      // Then loads the next sequence after a short delay
+      setTimeout(nextSequence, 1000);
+      // Resets the userSelection array (so the user has to remember the pattern)
+      userSelection = [];
+      // Increments level
+      currentLevel++;
+
+      // Dynamically adding HTML text to display current level
+      document.getElementById("current-level").innerHTML =
+        "Current level " + currentLevel;
+    }
+  } else {
+    // logs wrong answer
+    console.log("wrong");
+    // calls buttonSound function, passing "wrong" string to play wrong.mp3
+    buttonSound("wrong");
+    // Adds and removes game-over class to the body after a timeout
+    let body = document.querySelector("body");
+    body.classList.add("game-over");
+    setTimeout(function () {
+      body.classList.remove("game-over");
+    }, 500);
+
+    // Changes HTML of level-title
+    document.getElementById("level-title").innerHTML =
+      "Game Over! Press A to Try again";
+
+    resetGame();
+  }
+}
+
+// Runs when user makes a mistake in the sequence
+function resetGame() {
+  currentLevel = 1;
+  userSelection = [];
+  computerPattern = [];
+  gameActive = false;
+}
 
 function buttonPressed(color) {
   // This function works by finding a button with an ID equal to the argument passed, adding the ".pressed" class on it, and removing the class after 500 miliseconds using setTimeout
@@ -58,15 +114,24 @@ function buttonSound(color) {
 }
 
 document.addEventListener("keydown", (event) => {
-  // Event listener to start the game when user presses A
-  if (event.code === "KeyA") {
-    // Logging game start
-    console.log("Game started!");
-    // Resetting user selection
-    userSelection = [];
-    // Setting boolean to true when game has started
-    gameActive = true;
-    // Running next sequence
-    nextSequence();
+  // Wrapped everything here in an if, so the user cannot start a game when there is already one in progress
+  if (!gameActive) {
+    // Event listener to start the game when user presses A
+    if (event.code === "KeyA") {
+      // Logging game start
+      console.log("Game started!");
+      // Resetting user selection
+      userSelection = [];
+      // Setting boolean to true when game has started
+      gameActive = true;
+      // Running next sequence
+      nextSequence();
+
+      // Also dynamically adding HTML text to display current level
+      document.getElementById("current-level").innerHTML =
+        "Current level " + currentLevel;
+
+      document.getElementById("level-title").innerHTML = "";
+    }
   }
 });
